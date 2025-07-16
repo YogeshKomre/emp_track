@@ -887,8 +887,8 @@ body {/* filepath: c:\Users\HP\New folder (11)\style.css */
 #preShift {
     font-size: 1.1em;
     padding: 12px 14px;
-    min-height: 220px;
-    max-height: 520px;
+    min-height: 120px;
+    max-height: 220px;
     overflow-y: auto;
     word-break: break-word;
     white-space: pre-line;
