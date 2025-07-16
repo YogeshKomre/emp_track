@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Test - Employee Tracking System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #1a1a2e;
+            color: #fff;
+        }
+        .test-section {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border: 1px solid #FFA07A;
+        }
+        .user-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .user-item {
+            background: rgba(3,5,91,0.8);
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #FFA07A;
+        }
+        .manager { border-color: #4ECDC4; }
+        .employee { border-color: #FFD700; }
+        .spm { border-color: #FF6B6B; }
+        .senior-manager { border-color: #9B59B6; }
+        button {
+            background: #FFA07A;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #FF8C69;
+        }
+        .test-form {
+            background: rgba(3,5,91,0.8);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #FFA07A;
+            border-radius: 5px;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .success { background: rgba(76, 175, 80, 0.3); border: 1px solid #4CAF50; }
+        .error { background: rgba(244, 67, 54, 0.3); border: 1px solid #F44336; }
+        .info { background: rgba(33, 150, 243, 0.3); border: 1px solid #2196F3; }
+    </style>
+</head>
+<body>
+    <h1>🔧 Login Test - Employee Tracking System</h1>
+    
+    <div class="test-section">
+        <h2>📋 Available Users</h2>
+        <p>This shows all users that can log in to the system:</p>
+        
+        <h3>👔 Managers (APM)</h3>
+        <div class="user-list">
+            <div class="user-item manager">
+                <strong>Bhavin Visaria</strong><br>
+                <small>Password: bv@2024!</small>
+            </div>
+            <div class="user-item manager">
+                <strong>Dinesh Nihalani</strong><br>
+                <small>Password: dn@2024!</small>
+            </div>
+            <div class="user-item manager">
+                <strong>Rajendra Bajpai</strong><br>
+                <small>Password: rb@2024!</small>
+            </div>
+            <div class="user-item manager">
+                <strong>Ameeruddin Salmani</strong><br>
+                <small>Password: as@2024!</small>
+            </div>
+            <div class="user-item manager">
+                <strong>Vishal Pandey</strong><br>
+                <small>Password: vp@2024!</small>
+            </div>
+            <div class="user-item manager">
+                <strong>Lukas Chetty</strong><br>
+                <small>Password: lc@2024!</small>
+            </div>
+            <div class="user-item manager">
+                <strong>Faheem Khan</strong><br>
+                <small>Password: fk@2024!</small>
+            </div>
+            <div class="user-item manager">
+                <strong>Nikita Jawkar</strong><br>
+                <small>Password: nj@2024!</small>
+            </div>
+            <div class="user-item manager">
+                <strong>Ritesh Sherigar</strong><br>
+                <small>Password: rs@2024!</small>
+            </div>
+            <div class="user-item manager">
+                <strong>Mahesh Ghadge</strong><br>
+                <small>Password: mg@2024!</small>
+            </div>
+            <div class="user-item manager">
+                <strong>Melvyn Shinde</strong><br>
+                <small>Password: ms@2024!</small>
+            </div>
+            <div class="user-item manager">
+                <strong>Kamala Ramanathan</strong><br>
+                <small>Password: kr@2024!</small>
+            </div>
+            <div class="user-item manager">
+                <strong>Abdulrahim Khan</strong><br>
+                <small>Password: ak@2024!</small>
+            </div>
+            <div class="user-item manager">
+                <strong>Craig Miranda</strong><br>
+                <small>Password: cm@2024!</small>
+            </div>
+        </div>
+
+        <h3>👑 SPM Users</h3>
+        <div class="user-list">
+            <div class="user-item spm">
+                <strong>Saumya Shetty</strong><br>
+                <small>Password: ss@2024!</small>
+            </div>
+            <div class="user-item spm">
+                <strong>Ara Khan</strong><br>
+                <small>Password: ak@2024!</small>
+            </div>
+            <div class="user-item spm">
+                <strong>Priyanka Naidu</strong><br>
+                <small>Password: pn@2024!</small>
+            </div>
+            <div class="user-item spm">
+                <strong>Siddharth Chaturvedi</strong><br>
+                <small>Password: sc@2024!</small>
+            </div>
+            <div class="user-item spm">
+                <strong>Ajay Kamti</strong><br>
+                <small>Password: ajk@2024!</small>
+            </div>
+        </div>
+
+        <h3>👥 Sample Employees</h3>
+        <div class="user-list">
+            <div class="user-item employee">
+                <strong>Affan Kasim Mulla</strong><br>
+                <small>Password: affan2024</small>
+            </div>
+            <div class="user-item employee">
+                <strong>Anisha Anthony Dsouza</strong><br>
+                <small>Password: anisha2024</small>
+            </div>
+            <div class="user-item employee">
+                <strong>Aquib Malik Masood</strong><br>
+                <small>Password: aquib2024</small>
+            </div>
+            <div class="user-item employee">
+                <strong>Atharv Shevale</strong><br>
+                <small>Password: atharv2024</small>
+            </div>
+            <div class="user-item employee">
+                <strong>Biswajit Periala</strong><br>
+                <small>Password: biswajit2024</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>🧪 Quick Login Test</h2>
+        <div class="test-form">
+            <label for="testUsername">Username:</label>
+            <input type="text" id="testUsername" placeholder="Enter exact username">
+            
+            <label for="testRole">Role:</label>
+            <select id="testRole">
+                <option value="employee">Employee</option>
+                <option value="manager">Manager</option>
+                <option value="spm">SPM</option>
+            </select>
+            
+            <button onclick="testLogin()">Test Login</button>
+            <button onclick="clearTest()">Clear</button>
+        </div>
+        
+        <div id="testResult"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🔍 Troubleshooting Steps</h2>
+        <ol>
+            <li><strong>Check Browser Console:</strong> Open Developer Tools (F12) and check for any JavaScript errors</li>
+            <li><strong>Verify Username:</strong> Make sure you're using the exact username as shown above (case-sensitive)</li>
+            <li><strong>Check Role Selection:</strong> Ensure you've selected the correct role for the user</li>
+            <li><strong>Clear Browser Cache:</strong> Try clearing your browser cache and cookies</li>
+            <li><strong>Check File Path:</strong> Make sure you're accessing the correct HTML file</li>
+        </ol>
+        
+        <h3>Common Issues:</h3>
+        <ul>
+            <li><strong>"Name not found" error:</strong> Username doesn't match exactly or wrong role selected</li>
+            <li><strong>"Manager name not found" error:</strong> Manager name not in the list or wrong role</li>
+            <li><strong>"SPM access is restricted" error:</strong> Username not in SPM team or wrong role</li>
+            <li><strong>Page not loading:</strong> Check if all files (script.js, styles.css) are in the same folder</li>
+        </ul>
+    </div>
+
+    <div class="test-section">
+        <h2>📱 Test the Main Application</h2>
+        <p>Click the button below to open the main application:</p>
+        <button onclick="openMainApp()" style="background: #4CAF50; color: white; font-size: 16px; padding: 15px 30px;">
+            🚀 Open Main Application
+        </button>
+    </div>
+
+    <script>
+        function testLogin() {
+            const username = document.getElementById('testUsername').value.trim();
+            const role = document.getElementById('testRole').value;
+            const resultDiv = document.getElementById('testResult');
+            
+            if (!username) {
+                resultDiv.innerHTML = '<div class="status error">❌ Please enter a username</div>';
+                return;
+            }
+            
+            // Simulate the login logic from script.js
+            let isValid = false;
+            let message = '';
+            
+            if (role === 'employee') {
+                // Check if username is in any manager's employee list
+                const managers = [
+                    "Bhavin Visaria", "Dinesh Nihalani", "Rajendra Bajpai", "Ameeruddin Salmani",
+                    "Vishal Pandey", "Lukas Chetty", "Faheem Khan", "Nikita Jawkar",
+                    "Ritesh Sherigar", "Mahesh Ghadge", "Melvyn Shinde", "Kamala Ramanathan",
+                    "Abdulrahim Khan", "Craig Miranda"
+                ];
+                
+                const allEmployees = [
+                    "Affan Kasim Mulla", "Anisha Anthony Dsouza", "Aquib Malik Masood", "Atharv Shevale",
+                    "Biswajit Periala", "Dhaval Morabia", "Dinesh Kalade", "Gabriel Hudson Joseph",
+                    "Impreetkaut Khungura", "Mohammadumair Shaikh", "Priyesh Jagdish Gohil",
+                    "Shen Subramenian Iyer", "Tushar Singh", "Abhijeet Bhuyer", "Abhishek Shaik Mandlik",
+                    "Aditya Mishke", "Bhavesh Anand Madave", "Heena Bhakta", "Komal Gosavi",
+                    "Mohammad Bilal Khan", "Priya Patil", "Rushi Rajendra Dhere", "Satyajit Jadhav",
+                    "Tanvi Sevkar", "Tushar More", "Viral Mane"
+                ];
+                
+                if (allEmployees.includes(username)) {
+                    isValid = true;
+                    message = `✅ Employee login valid! User: ${username}`;
+                } else {
+                    message = `❌ Employee name not found: ${username}`;
+                }
+            } else if (role === 'manager') {
+                const managers = [
+                    "Bhavin Visaria", "Dinesh Nihalani", "Rajendra Bajpai", "Ameeruddin Salmani",
+                    "Vishal Pandey", "Lukas Chetty", "Faheem Khan", "Nikita Jawkar",
+                    "Ritesh Sherigar", "Mahesh Ghadge", "Melvyn Shinde", "Kamala Ramanathan",
+                    "Abdulrahim Khan", "Craig Miranda"
+                ];
+                
+                if (managers.includes(username)) {
+                    isValid = true;
+                    message = `✅ Manager login valid! User: ${username}`;
+                } else {
+                    message = `❌ Manager name not found: ${username}`;
+                }
+            } else if (role === 'spm') {
+                const spmUsers = ["Saumya Shetty", "Ara Khan", "Priyanka Naidu", "Siddharth Chaturvedi", "Ajay Kamti"];
+                
+                if (spmUsers.includes(username)) {
+                    isValid = true;
+                    message = `✅ SPM login valid! User: ${username}`;
+                } else {
+                    message = `❌ SPM access restricted: ${username}`;
+                }
+            }
+            
+            resultDiv.innerHTML = `<div class="status ${isValid ? 'success' : 'error'}">${message}</div>`;
+        }
+        
+        function clearTest() {
+            document.getElementById('testUsername').value = '';
+            document.getElementById('testRole').value = 'employee';
+            document.getElementById('testResult').innerHTML = '';
+        }
+        
+        function openMainApp() {
+            window.open('index.html', '_blank');
+        }
+        
+        // Auto-fill test examples
+        document.getElementById('testUsername').addEventListener('focus', function() {
+            if (!this.value) {
+                this.placeholder = 'Try: Bhavin Visaria (Manager) or Affan Kasim Mulla (Employee)';
+            }
+        });
+    </script>
+</body>
+</html>

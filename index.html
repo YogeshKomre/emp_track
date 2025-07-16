@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Tracking System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="login-container" id="loginContainer">
+        <h1>Employee Tracking System</h1>
+        <div class="login-form">
+            <input type="text" id="username" placeholder="Username" required>
+                <div class="password-container">
+                    <input type="password" id="password" placeholder="Password" required>
+                    <span id="togglePassword" title="Show/Hide Password" onclick="togglePasswordVisibility()">👁️</span>
+                </div>
+            <select id="userRole">
+                <option value="employee">Employee</option>
+                <option value="manager">Manager</option>
+                <option value="spm">SPM</option>
+                <option value="apjm">APJM</option> <!-- Corrected value to 'apjm' -->
+            </select>
+                            
+            <button class="neon-btn" onclick="handleLogin()">Login</button>
+        </div>
+    </div>
+
+    <div class="dashboard-container" id="dashboard" style="display: none;">
+        <nav class="navbar">
+            <h2>Welcome, <span id="userName"></span></h2>
+            <div class="login-hours-bar">Login Hours: <span id="loginHours">00:00:00</span></div>
+            <div class="session-status" id="sessionStatus" style="font-size: 12px; color: #FFD700; margin-right: 10px;">
+                Session: Active
+            </div>
+            <button class="neon-btn" onclick="handleLogout()">Logout</button>
+            <button class="neon-btn" onclick="forceLogout()" style="background: #ff6b6b; margin-left: 10px;">Force Logout</button>
+        </nav>
+        <div class="announcement-marquee">
+            <div class="scrolling-text">
+                <!-- Marquee text will appear here -->
+            </div>
+        </div>
+
+        <!-- Manager Dashboard Layout -->
+        <div class="manager-dashboard-grid" id="managerDashboardGrid" style="display: none;">
+            <h1 class="manager-dashboard-title">Manager Dashboard</h1>
+            <div class="manager-marquee" id="managerMarquee">
+                <h2>Marquee Announcement</h2>
+                <textarea id="managerMarqueeInput" placeholder="Enter marquee announcement..." style="width:100%;margin-bottom:8px;"></textarea>
+                <button class="neon-btn" id="publishMarqueeBtn" style="margin-bottom:12px;">Publish Marquee</button>
+                <div class="marquee-content" id="managerMarqueeContent"></div>
+            </div>
+            <div class="manager-live-employees" id="managerLiveEmployees">
+                <h2>Live Employees</h2>
+                <div class="live-employees-list" id="liveEmployeesList"></div>
+            </div>
+            <div class="manager-progress-report" id="managerProgressReport">
+                <div class="progress-header-row">
+                    <h2 style="display:inline-block;">Progress Report</h2>
+                    <h2 style="display:inline-block; ">Call Coding Metrics</h2>
+                </div>
+                <div class="progress-content-row">
+                    <div class="progress-total-sales" id="progressTotalSales">Total Sales: <span style='color:#FFD700;font-size:1.2em;'>0</span></div>
+                    <div class="progress-call-coding" id="progressCallCoding">
+                        <div>Total Calls: <span id="totalCalls">0</span></div>
+                        <div>Total DXST: <span id="totalDXST">0</span></div>
+                        <div>Call Coding Ratio: <span id="callCodingRatio">0</span>%</div> <!-- Added span for ratio -->
+                    </div>
+                </div>
+            </div>
+            <div class="manager-daily-update" id="managerDailyUpdate">
+                <h2>Daily Update</h2>
+                <textarea id="managerDailyUpdateInput" placeholder="Enter daily update..." style="width:100%;margin-bottom:8px;"></textarea>
+                <button class="neon-btn" id="publishDailyUpdateBtn" style="margin-bottom:12px;">Publish Daily Update</button>
+                <div class="daily-update-content" id="managerDailyUpdateContent"></div>
+            </div>
+            <div class="manager-call-summary-table" id="managerCallSummaryTable">
+                <h2>Call Summary Table - All Employees</h2>
+                <div class="call-summary-table-content" id="managerCallSummaryTableContent">
+                    <!-- Comprehensive call summary table will be populated here by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- SPM Dashboard -->
+        <div class="spm-dashboard" id="spmDashboard" style="display: none; padding: 20px; max-width: 1200px; margin: 0 auto;">
+            <h2>SPM Dashboard</h2>
+            <div class="dashboard-grid">
+                <div class="dashboard-section">
+                    <h3>Manager Performance Overview</h3>
+                    <div id="spmManagerData">
+                        <!-- Manager data will be populated here -->
+                    </div>
+                </div>
+                <div class="dashboard-section">
+                    <h3>Global Daily Update</h3>
+                    <textarea id="spmDailyUpdate" placeholder="Enter global daily update for all teams..."></textarea>
+                    <button onclick="saveSPMDailyUpdate()" class="neon-btn">Save Global Daily Update</button>
+                </div>
+                <div class="dashboard-section">
+                    <h3>Global Marquee Announcement</h3>
+                    <textarea id="spmMarquee" placeholder="Enter global marquee announcement for all users..."></textarea>
+                    <button onclick="saveSPMMarqueeAnnouncement()" class="neon-btn">Save Global Marquee</button>
+                </div>
+                <div class="dashboard-section">
+                    <h3>Overall Progress Report</h3>
+                    <div class="progress-report">
+                        <div class="sales-chart">
+                            <h4>Overall Sales Overview</h4>
+                            <div style="position: relative; width: 150px; height: 150px; margin: 0 auto;">
+                                <canvas id="spmSalesDonutChart" width="150" height="150"></canvas>
+                                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+                                    <div style="font-size: 18px; font-weight: bold; color: #FFD700;" id="spmTotalSalesDisplay">0</div>
+                                    <div style="font-size: 12px; color: #FFA07A;">Total Sales</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="call-metrics">
+                            <h4>Overall Call Coding Metrics</h4>
+                            <div id="spmCallCodingMetrics">
+                                <div class="metric">
+                                    <span class="metric-label">Total DXST:</span>
+                                    <span class="metric-value">0</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-label">Total Sequence ID:</span>
+                                    <span class="metric-value">0</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-label">Call Coding Ratio:</span>
+                                    <span class="metric-value">0%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Employee Dashboard Layout -->
+        <div class="employee-dashboard-grid" id="employeeDashboardGrid" style="display: none;">
+            <div class="break-tracking" id="breakTracking">
+                <h3>Break Tracking</h3>
+                <div class="break-buttons">
+                    <button class="neon-btn" onclick="toggleBreak('first')">1st Break</button>
+                    <button class="neon-btn" onclick="toggleBreak('second')">2nd Break</button>
+                    <button class="neon-btn" onclick="toggleBreak('bio')">Bio Break</button>
+                </div>
+                <div class="break-timers">
+                    <div class="timer">1st Break: <span id="firstBreak">00:00</span></div>
+                    <div class="timer">2nd Break: <span id="secondBreak">00:00</span></div>
+                    <div class="timer">Bio Break: <span id="bioBreak">00:00</span></div>
+                    <div class="timer total">Total Break: <span id="totalBreak">00:00</span></div>
+                </div>
+            </div>
+            <div class="call-details-section" id="callDetailsSection">
+                <h3>Call Details</h3>
+                <div class="call-details-inputs">
+                    <label for="sequenceId">Sequence ID</label>
+                    <input type="number" id="sequenceId" placeholder="Sequence ID" min="0" step="1">
+                    <label for="dxstNumber">DXST Number</label>
+                    <input type="text" id="dxstNumber" placeholder="Enter DXST Number (optional)" style="padding: 7px; border: 1px solid #FFA07A; border-radius: 5px; background: rgba(3, 5, 91, 0.8); color: #fff; font-size: 0.95em; width: 100%;">
+                    <button class="neon-btn" id="startCallBtn" type="button" onclick="startCall()">Start Call</button>
+                    <button class="neon-btn" id="endCallBtn" type="button" style="display:none;" onclick="endCall()">End Call</button>
+                    <button class="neon-btn" id="testCallBtn" type="button" style="background: #ff6b6b; margin-top: 5px;">Add Test Call</button>
+                </div>
+            </div>
+            <div class="sales-tracking" id="salesTracking">
+                <h3>Sales Tracking</h3>
+                <div class="sales-inputs">
+                    <div class="sales-inputs-row">
+                        <label for="Fiber">Fiber</label><input type="number" id="Fiber" placeholder="Fiber">
+                        <label for="Mobile">Mobile</label><input type="number" id="Mobile" placeholder="Mobile">
+                        <label for="Video">Video</label><input type="number" id="Video" placeholder="Video">
+                        <button class="neon-btn" onclick="addSale()">Add Sale</button>
+                    </div>
+                    <div class="sales-list" id="salesList">
+                        <h4>Sales History</h4>
+                        <ul id="salesItems"></ul>
+                    </div>
+                    <div class="sales-total">
+                        <div class="total-sales">Total Sales: <span id="totalSales">0</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="daily-update-box" id="dailyUpdateBox">
+                <h3>Daily Update</h3>
+                <div class="update-table">
+                    <div class="update-cell">
+                        <label for="preShift">Pre-shift Briefing:</label>
+                        <textarea id="preShift" rows="10" placeholder="Pre-shift update..." readonly></textarea>
+                    </div>
+                </div>
+                <!-- Removed save button as it's now manager-controlled -->
+            </div>
+            <div class="checkbox-section" id="checkboxSection">
+                <h3>Call Handling Steps</h3>
+                <label><input type="checkbox" class="call-step" value="Greeting"> Greeting</label>
+                <label><input type="checkbox" class="call-step" value="Empathy"> Empathy</label>
+                <label><input type="checkbox" class="call-step" value="Assurance"> Assurance</label>
+                <label>CPC
+                    <select id="cpcDropdown">
+                        <option value="">Select</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                        <option value="NA">NA</option>
+                    </select>
+                </label>
+                <div class="preferred-contact-group">
+                    <span class="preferred-contact-label">Preferred Contact Methods for CPC:</span>
+                    <div class="preferred-contact">
+                        <label><input type="checkbox" class="preferred-contact-method" value="Preferred Number"> Preferred Number</label>
+                        <label><input type="checkbox" class="preferred-contact-method" value="Preferred Text"> Preferred Text</label>
+                        <label><input type="checkbox" class="preferred-contact-method" value="Preferred Email"> Preferred Email</label>
+                    </div>
+                </div>
+                <label><input type="checkbox" class="call-step" value="Authentication"> Authentication</label>
+                <label><input type="checkbox" class="call-step" value="Problem Resolution"> Problem Resolution</label>
+                <label><input type="checkbox" class="call-step" value="Sales Pitch"> Sales Pitch</label>
+                <label><input type="checkbox" class="call-step" value="Farther Assistance"> Further Assistance</label>
+                <label><input type="checkbox" class="call-step" value="Closing"> Closing</label>
+                <label><input type="checkbox" class="call-step" value="Documentation"> Documentation</label>
+                <label><input type="checkbox" class="call-step" value="Survey Pitch">Survey Pitch</label> <!-- Corrected typo -->
+                <button id="pullStepsBtn" class="neon-btn" type="button">Pull Call Steps to Summary</button>
+            </div>
+            <div class="call-status-section" id="callStatusSection" style="background: transparent; border: 2px solid #bdbdfc; border-radius: 10px; padding: 18px 20px; margin: 18px 0; box-shadow: 0 2px 8px rgba(3,5,91,0.07); max-width: 400px;">
+                <h3 style="color: #dcdce7; margin-bottom: 16px;">Call Status</h3>
+                <div style="display: flex; flex-direction: column; gap: 14px;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span style="min-width: 120px; color: #2ecc40; font-weight: 600;">Good Call</span>
+                        <label style="color: #2ecc40; font-weight: 500;"><input type="checkbox" class="call-status-checkbox" id="goodCallYes" value="Yes"> Yes</label>
+                        <label style="color: #ff4136; font-weight: 500;"><input type="checkbox" class="call-status-checkbox" id="goodCallNo" value="No"> No</label>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span style="min-width: 120px; color: #0074d9; font-weight: 600;">Issue Resolved</span>
+                        <label style="color: #0074d9; font-weight: 500;"><input type="checkbox" class="call-status-checkbox" id="issueResolvedYes" value="Yes"> Yes</label>
+                        <label style="color: #ff4136; font-weight: 500;"><input type="checkbox" class="call-status-checkbox" id="issueResolvedNo" value="No"> No</label>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span style="min-width: 120px; color: #ff851b; font-weight: 600;">Survey Pitch</span>
+                        <label style="color: #ff851b; font-weight: 500;"><input type="checkbox" class="call-status-checkbox" id="surveyPitchYes" value="Yes"> Yes</label>
+                        <label style="color: #ff4136; font-weight: 500;"><input type="checkbox" class="call-status-checkbox" id="surveyPitchNo" value="No"> No</label>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span style="min-width: 120px; color: #b10dc9; font-weight: 600;">Promoter Call</span>
+                        <label style="color: #b10dc9; font-weight: 500;"><input type="checkbox" class="call-status-checkbox" id="promoterCallYes" value="Yes"> Yes</label>
+                        <label style="color: #ff4136; font-weight: 500;"><input type="checkbox" class="call-status-checkbox" id="promoterCallNo" value="No"> No</label>
+                    </div>
+                </div>
+            </div>
+            <div class="summary-box" id="summaryBox">
+                <div class="summary-content">
+                    <h3>Summary</h3>
+                    <div class="summary-item">CPC: <span id="summaryCPC"></span></div>
+                    <div class="summary-item">Preferred Contact: <span id="summaryPreferredContact"></span></div>
+                    <div class="summary-item">Total Break Time: <span id="summaryBreak">00:00</span></div>
+                    <div class="summary-item">Total Sales: <span id="summarySales">0</span></div>
+                    <div class="summary-item">Checked Call Steps: <span id="checkedSteps"></span></div>
+                    <div class="summary-item">Latest Call Details: <span id="summaryCallDetails"></span></div>
+                    <!-- Manager summary section is only for manager's own time tracking, not employee data -->
+                    <button class="neon-btn" onclick="sendEmail()">Send Summary to Email</button>
+                </div>
+            </div>
+            <div class="wonderful-banner" id="wonderfulBanner">
+                <div style="text-align: center;">
+                <span style="
+                    display: block;
+                    font-family: 'Algerian', 'Papyrus', fantasy, cursive, serif;
+                    font-size: 4.5em;
+                    background: linear-gradient(90deg, #ff6b81 0%, #ffb6c1 100%);
+                    
+                    -webkit-text-fill-color: transparent;
+                    color: #ff6b81;
+                    text-shadow: 3px 3px 0 #000, 6px 6px 0 #222;
+                    letter-spacing: 3px;
+                    font-weight: bold;">Wonderful!
+                </span>
+                <svg width="220" height="50" viewBox="0 0 220 50" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-top: -12px;">
+                    <path d="M15 25 Q60 50 110 25 Q160 0 205 25" stroke="#ff6b81" stroke-width="4" fill="none"/>
+                    <path d="M110 25 Q117 38 124 25 Q131 12 138 25" stroke="#ff6b81" stroke-width="2.5" fill="none"/>
+                    <circle cx="110" cy="25" r="5" fill="#ffb6c1" stroke="#000" stroke-width="1.5"/>
+                </svg>
+                </div>
+            </div>
+            <div class="call-summary-table-section" id="callSummaryTableSection">
+                <h3>Your Call Summary Table</h3> <!-- Changed heading for clarity -->
+                <div style="margin-bottom: 10px;">
+                    <button class="neon-btn" onclick="addTestCall()">Add Test Call</button>
+                </div>
+                <div id="callSummaryLoading" style="display:none;text-align:center;">
+                    <span class="loader"></span>
+                </div>
+                <table class="call-summary-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Sequence ID</th>
+                            <th>DXST Number</th>
+                            <th>Sales (F/M/V)</th>
+                            <th>CPC</th>
+                            <th>Call Steps</th>
+                            <th>Good Call</th>
+                            <th>Issue Resolved</th>
+                            <th>Survey Pitch</th>
+                            <th>Promoter Call</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Call Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody id="callSummaryTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
